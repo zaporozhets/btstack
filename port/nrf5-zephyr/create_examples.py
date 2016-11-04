@@ -17,14 +17,15 @@ mk_template = '''#
 obj-y += EXAMPLE.o
 obj-y += main.o
 ccflags-y += -I${ZEPHYR_BASE}/net/btstack
+ccflags-y += -I${ZEPHYR_BASE}/drivers/bluetooth/controller/ll
 
 '''
 
 gatt_update_template = '''#!/bin/sh
 DIR=`dirname $0`
 BTSTACK_ROOT=$DIR/../../../btstack
-echo "Creating EXAMPLE.h from EXAMPLE.gatt"
-$BTSTACK_ROOT/tool/compile_gatt.py $BTSTACK_ROOT/example/EXAMPLE.gatt $DIR/EXAMPLE.h
+echo "Creating src/EXAMPLE.h from EXAMPLE.gatt"
+$BTSTACK_ROOT/tool/compile_gatt.py $BTSTACK_ROOT/example/EXAMPLE.gatt $DIR/src/EXAMPLE.h
 '''
 
 # get script path
