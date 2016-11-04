@@ -14,6 +14,7 @@ obj-y +=  \
 	hci_transport_h5.o \
 	l2cap.o \
 	l2cap_signaling.o \
-	
+	btstack_run_loop_embedded.o \
+
 obj-y += ble/
 ccflags-y += -I${ZEPHYR_BASE}/subsys/btstack

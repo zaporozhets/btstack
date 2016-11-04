@@ -32,6 +32,7 @@
 #include "hci.h"
 #include "hci_dump.h"
 #include "hci_transport.h"
+#include "btstack_run_loop_embedded.h"
 
 /* incoming events and data from the controller */
 static struct nano_fifo rx_queue;
@@ -64,89 +65,49 @@ static NET_BUF_POOL(acl_tx_pool, CONFIG_BLUETOOTH_CONTROLLER_TX_BUFFERS,
 
 static struct nano_fifo tx_queue;
 
-// btstack_run_loop_zephyr.c
-static void btstack_run_loop_zephyr_btstack_run_loop_init(void){
+// hal_cpu.h
+// TODO: implement
+#include "hal_cpu.h"
+void hal_cpu_disable_irqs(void){}
+void hal_cpu_enable_irqs(void){}
+void hal_cpu_enable_irqs_and_sleep(void){}
+
+// hal_time_ms.h
+#include <sys_clock.h>
+static int sys_clock_ms_per_tick = 1000 / sys_clock_ticks_per_sec;
+uint32_t hal_time_ms(void){
+	return sys_tick_get_32() * sys_clock_ms_per_tick;
 }
 
-static uint32_t btstack_run_loop_zephyr_get_time_ms(void){
-	// return _sys_k_get_time();
-	return 0;
-}
-
-// set timer
-static void btstack_run_loop_zephyr_set_timer(btstack_timer_source_t *ts, uint32_t timeout_in_ms){
-}
-
-/**
- * Add timer to run_loop (keep list sorted)
- */
-static void btstack_run_loop_zephyr_add_timer(btstack_timer_source_t *ts){
-}
-
-/**
- * Remove timer from run loop
- */
-static int btstack_run_loop_zephyr_remove_timer(btstack_timer_source_t *ts){
-    return 1;
-}
-
-static void btstack_run_loop_zephyr_dump_timer(void){
-#ifdef ENABLE_LOG_INFO 
-#endif
-}
-
-static void btstack_run_loop_zephyr_execute(void){
-	while (1){
-
-		// TODO: timers
-
-		// TODO: data sources
-
-		// hacked implementation: process packets by the Controller
-		struct net_buf *buf;
-		buf = net_buf_get_timeout(&rx_queue, 0, TICKS_NONE); // TICKS_NONE vs TICKS_UNLIMITED
-		if (buf){
-			uint16_t    size = buf->len;
-			uint8_t * packet = buf->data;
-			switch (bt_buf_get_type(buf)) {
-				case BT_BUF_ACL_IN:
-					transport_packet_handler(HCI_ACL_DATA_PACKET, packet, size);
-					break;
-				case BT_BUF_EVT:
-					transport_packet_handler(HCI_EVENT_PACKET, packet, size);
-					break;
-				default:
-					printf("Unknown type %u\n", bt_buf_get_type(buf));
-					net_buf_unref(buf);
-					break;
-			}
-			net_buf_unref(buf);
+static void deliver_controller_packet(void){
+	struct net_buf *buf;
+	buf = net_buf_get_timeout(&rx_queue, 0, TICKS_NONE); // TICKS_NONE vs TICKS_UNLIMITED
+	if (buf){
+		uint16_t    size = buf->len;
+		uint8_t * packet = buf->data;
+		switch (bt_buf_get_type(buf)) {
+			case BT_BUF_ACL_IN:
+				transport_packet_handler(HCI_ACL_DATA_PACKET, packet, size);
+				break;
+			case BT_BUF_EVT:
+				transport_packet_handler(HCI_EVENT_PACKET, packet, size);
+				break;
+			default:
+				printf("Unknown type %u\n", bt_buf_get_type(buf));
+				net_buf_unref(buf);
+				break;
 		}
+		net_buf_unref(buf);
 	}
 }
 
-static const btstack_run_loop_t btstack_run_loop_zephyr = {
-    &btstack_run_loop_zephyr_btstack_run_loop_init,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    &btstack_run_loop_zephyr_set_timer,
-    &btstack_run_loop_zephyr_add_timer,
-    &btstack_run_loop_zephyr_remove_timer,
-    &btstack_run_loop_zephyr_execute,
-    &btstack_run_loop_zephyr_dump_timer,
-    &btstack_run_loop_zephyr_get_time_ms,
-};
-
-/**
- * @brief Provide btstack_run_loop_posix instance for use with btstack_run_loop_init
- */
-const btstack_run_loop_t * btstack_run_loop_zephyr_get_instance(void){
-    return &btstack_run_loop_zephyr;
-}
-
 // hci_transport_zephyr.c
+
+static btstack_data_source_t hci_transport_data_source;
+
+static void transport_run(btstack_data_source_t *ds, btstack_data_source_callback_type_t callback_type){
+	deliver_controller_packet();
+}
 
 /**
  * init transport
@@ -159,9 +120,9 @@ static void transport_init(const void *transport_config){
  * open transport connection
  */
 static int transport_open(void){
-    // btstack_run_loop_set_data_source_handler(&hci_transport_data_source, &transport_run);
-    // btstack_run_loop_enable_data_source_callbacks(&hci_transport_data_source, DATA_SOURCE_CALLBACK_POLL);
-    // btstack_run_loop_add_data_source(&hci_transport_data_source);
+    btstack_run_loop_set_data_source_handler(&hci_transport_data_source, &transport_run);
+    btstack_run_loop_enable_data_source_callbacks(&hci_transport_data_source, DATA_SOURCE_CALLBACK_POLL);
+    btstack_run_loop_add_data_source(&hci_transport_data_source);
     return 0;
 }
 
@@ -169,7 +130,7 @@ static int transport_open(void){
  * close transport connection
  */
 static int transport_close(void){
-    // btstack_run_loop_remove_data_source(&hci_transport_data_source);
+    btstack_run_loop_remove_data_source(&hci_transport_data_source);
     return 0;
 }
 
@@ -218,6 +179,9 @@ int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size){
     return 0;   
 }
 
+// hal_time_ms.c
+
+
 // main.c
 int btstack_main(void);
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
@@ -248,8 +212,8 @@ void main(void)
 
 	// start with BTstack init - especially configure HCI Transport
     btstack_memory_init();
-    btstack_run_loop_init(btstack_run_loop_zephyr_get_instance());
-    
+    btstack_run_loop_init(btstack_run_loop_embedded_get_instance());
+
     // enable full log output while porting
     hci_dump_open(NULL, HCI_DUMP_STDOUT);
 

@@ -17,14 +17,21 @@ mkdir -p ${ZEPHYR_BASE}/subsys/btstack
 # copy sources
 rsync -a ../../src/ ${ZEPHYR_BASE}/subsys/btstack
 
+# copy embedded run loop
+rsync -a ../../platform/embedded/hal_cpu.h ${ZEPHYR_BASE}/subsys/btstack
+rsync -a ../../platform/embedded/hal_time_ms.h ${ZEPHYR_BASE}/subsys/btstack
+rsync -a ../../platform/embedded/hal_tick.h ${ZEPHYR_BASE}/subsys/btstack
+rsync -a ../../platform/embedded/btstack_run_loop_embedded.h ${ZEPHYR_BASE}/subsys/btstack
+rsync -a ../../platform/embedded/btstack_run_loop_embedded.c ${ZEPHYR_BASE}/subsys/btstack
+
 # copy btstack_config.h
-rsync btstack_config.h ${ZEPHYR_BASE}/subsys/btstack
+rsync -a btstack_config.h ${ZEPHYR_BASE}/subsys/btstack
 
 # copy Kconfig
-rsync Kconfig ${ZEPHYR_BASE}/subsys/btstack
+rsync -a Kconfig ${ZEPHYR_BASE}/subsys/btstack
 
 # copy Makefiles
-rsync Makefile.src 	        ${ZEPHYR_BASE}/subsys/btstack/Makefile
-rsync Makefile.ble 	        ${ZEPHYR_BASE}/subsys/btstack/ble/Makefile
-rsync Makefile.gatt-service ${ZEPHYR_BASE}/subsys/btstack/ble/gatt-service/Makefile
+rsync -a Makefile.src 	        ${ZEPHYR_BASE}/subsys/btstack/Makefile
+rsync -a Makefile.ble 	        ${ZEPHYR_BASE}/subsys/btstack/ble/Makefile
+rsync -a Makefile.gatt-service ${ZEPHYR_BASE}/subsys/btstack/ble/gatt-service/Makefile
 
