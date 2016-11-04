@@ -37,8 +37,6 @@
 /* incoming events and data from the controller */
 static struct nano_fifo rx_queue;
 
-static hci_transport_t hci_transport;
-
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 
 static void (*transport_packet_handler)(uint8_t packet_type, uint8_t *packet, uint16_t size);
@@ -114,6 +112,20 @@ static void transport_run(btstack_data_source_t *ds, btstack_data_source_callbac
  * @param transport_config
  */
 static void transport_init(const void *transport_config){
+	/* Initialize the buffer pools */
+	net_buf_pool_init(cmd_tx_pool);
+	net_buf_pool_init(acl_tx_pool);
+
+	/* Initialize the FIFOs */
+	nano_fifo_init(&tx_queue);
+	nano_fifo_init(&rx_queue);
+
+	/* startup Controller */
+	bt_enable_raw(&rx_queue);
+
+	// use 11:22:33:44:55:66
+	uint8_t addr[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
+	ll_address_set(0, addr);
 }
 
 /**
@@ -148,7 +160,7 @@ static void send_hardware_error(uint8_t error_code){
     // hci_outgoing_event_ready = 1;
 }
 
-int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size){
+static int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size){
 	struct net_buf *buf;
     switch (packet_type){
         case HCI_COMMAND_DATA_PACKET:
@@ -179,11 +191,27 @@ int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size){
     return 0;   
 }
 
+static const hci_transport_t transport = {
+    /* const char * name; */                                        "nRF5-Zephyr",
+    /* void   (*init) (const void *transport_config); */            &transport_init,
+    /* int    (*open)(void); */                                     &transport_open,
+    /* int    (*close)(void); */                                    &transport_close,
+    /* void   (*register_packet_handler)(void (*handler)(...); */   &transport_register_packet_handler,
+    /* int    (*can_send_packet_now)(uint8_t packet_type); */       NULL,
+    /* int    (*send_packet)(...); */                               &transport_send_packet,
+    /* int    (*set_baudrate)(uint32_t baudrate); */                NULL,
+    /* void   (*reset_link)(void); */                               NULL,
+};
+
+static const hci_transport_t * transport_get_instance(void){
+	return &transport;
+}
+
 // hal_time_ms.c
 
 
 // main.c
-int btstack_main(void);
+
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
     if (packet_type != HCI_EVENT_PACKET) return;
     if (hci_event_packet_get_type(packet) != BTSTACK_EVENT_STATE) return;
@@ -191,24 +219,11 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
     printf("BTstack up and running.\n");
 }
 
+int btstack_main(void);
+
 void main(void)
 {
 	printf("BTstack booting up..\n");
-
-	/* Initialize the buffer pools */
-	net_buf_pool_init(cmd_tx_pool);
-	net_buf_pool_init(acl_tx_pool);
-
-	/* Initialize the FIFOs */
-	nano_fifo_init(&tx_queue);
-	nano_fifo_init(&rx_queue);
-
-	/* startup Controller */
-	bt_enable_raw(&rx_queue);
-
-	// use 11:22:33:44:55:66
-	uint8_t addr[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
-	ll_address_set(0, addr);
 
 	// start with BTstack init - especially configure HCI Transport
     btstack_memory_init();
@@ -217,19 +232,8 @@ void main(void)
     // enable full log output while porting
     hci_dump_open(NULL, HCI_DUMP_STDOUT);
 
-    // setup hci transport wrapper
-    hci_transport.name                          = "nRF5-Zephyr";
-    hci_transport.init                          = transport_init;
-    hci_transport.open                          = transport_open;
-    hci_transport.close                         = transport_close;
-    hci_transport.register_packet_handler       = transport_register_packet_handler;
-    hci_transport.can_send_packet_now           = NULL;
-    hci_transport.send_packet                   = transport_send_packet;
-    hci_transport.set_baudrate                  = NULL;
-
     // init HCI
-    hci_init(&hci_transport, NULL);
-    // hci_set_link_key_db(btstack_link_key_db_wiced_dct_instance());
+    hci_init(transport_get_instance(), NULL);
 
     // inform about BTstack state
     hci_event_callback_registration.callback = &packet_handler;
@@ -242,5 +246,4 @@ void main(void)
     btstack_run_loop_execute();
 
     while (1){};
-
 }
