@@ -58,6 +58,14 @@ for file in os.listdir(examples_embedded):
         continue
 
     example = file[:-2]
+    gatt_path = examples_embedded + example + ".gatt"
+
+    # filter LE-only applications
+    if not os.path.exists(gatt_path) and not example in [
+        "ancs_cient_demo","gap_le_advertisements", "gatt_battery_query","gatt_browser","sm_pairing_central"]:
+        continue
+    if example == "spp_and_le_counter":
+        continue
 
     # create folder
     apps_folder = apps_btstack + example + "/"
