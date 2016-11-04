@@ -93,8 +93,6 @@ for file in os.listdir(examples_embedded):
     # copy example file
     shutil.copyfile(examples_embedded + file, src_folder + "/" + example + ".c")
 
-    print("- %s" % example)
-
     # create update_gatt.sh if .gatt file is present
     gatt_path = examples_embedded + example + ".gatt"
     if os.path.exists(gatt_path):

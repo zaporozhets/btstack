@@ -2,6 +2,8 @@
 
 ZEPHYR_BASE=../../..
 
+echo "Adding BTstack sources as subsys/btstack"
+
 # add btstack folder to subsys/Makefile
 MAKEFILE_ADD_ON='obj-$(CONFIG_BTSTACK) += btstack/'
 NET_MAKEFILE=${ZEPHYR_BASE}/subsys/Makefile
@@ -34,4 +36,7 @@ rsync -a Kconfig ${ZEPHYR_BASE}/subsys/btstack
 rsync -a Makefile.src 	        ${ZEPHYR_BASE}/subsys/btstack/Makefile
 rsync -a Makefile.ble 	        ${ZEPHYR_BASE}/subsys/btstack/ble/Makefile
 rsync -a Makefile.gatt-service ${ZEPHYR_BASE}/subsys/btstack/ble/gatt-service/Makefile
+
+# create samples/btstack
+./create_examples.py
 
