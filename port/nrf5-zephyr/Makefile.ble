@@ -11,4 +11,4 @@ obj-y +=  \
 #	att_db_util.o \
 
 obj-y += gatt-service/
-ccflags-y += -I${ZEPHYR_BASE}/net/btstack
+ccflags-y += -I${ZEPHYR_BASE}/subsys/btstack

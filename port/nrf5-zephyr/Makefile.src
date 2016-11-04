@@ -16,4 +16,4 @@ obj-y +=  \
 	l2cap_signaling.o \
 	
 obj-y += ble/
-ccflags-y += -I${ZEPHYR_BASE}/net/btstack
+ccflags-y += -I${ZEPHYR_BASE}/subsys/btstack

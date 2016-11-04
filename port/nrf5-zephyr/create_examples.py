@@ -16,8 +16,8 @@ mk_template = '''#
 
 obj-y += EXAMPLE.o
 obj-y += main.o
-ccflags-y += -I${ZEPHYR_BASE}/net/btstack
-ccflags-y += -I${ZEPHYR_BASE}/drivers/bluetooth/controller/ll
+ccflags-y += -I${ZEPHYR_BASE}/subsys/btstack
+ccflags-y += -I${ZEPHYR_BASE}/subsys/bluetooth/controller/ll
 
 '''
 
