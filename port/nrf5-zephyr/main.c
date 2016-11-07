@@ -1,6 +1,45 @@
-/**
- * BTstack port for Zephyr Bluetooth Controller
+/*
+ * Copyright (C) 2016 BlueKitchen GmbH
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holders nor the names of
+ *    contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ * 4. Any redistribution, use, or modification is done solely for
+ *    personal benefit and not for any commercial purpose or for
+ *    monetary gain.
+ *
+ * THIS SOFTWARE IS PROVIDED BY BLUEKITCHEN GMBH AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MATTHIAS
+ * RINGWALD OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+ * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * Please inquire about commercial licensing options at 
+ * contact@bluekitchen-gmbh.com
+ *
  */
+ /**
+  * BTstack port for Zephyr Bluetooth Controller
+  *
+  * Data Sources aside from the HCI Controller are not supported yet 
+  * Timers are supported by waiting on the HCI Controller RX queue until the next timeout is due
+  */
 
 #include <errno.h>
 #include <stddef.h>
@@ -12,6 +51,7 @@
 #include <misc/byteorder.h>
 #include <misc/sys_log.h>
 #include <misc/util.h>
+#include <sys_clock.h>
 
 #include <device.h>
 #include <init.h>
@@ -26,20 +66,21 @@
 
 #include <misc/kernel_event_logger.h>
 
+#include "btstack_debug.h"
 #include "btstack_event.h"
 #include "btstack_memory.h"
 #include "btstack_run_loop.h"
 #include "hci.h"
 #include "hci_dump.h"
 #include "hci_transport.h"
-#include "btstack_run_loop_embedded.h"
-
-/* incoming events and data from the controller */
-static struct nano_fifo rx_queue;
 
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 
 static void (*transport_packet_handler)(uint8_t packet_type, uint8_t *packet, uint16_t size);
+
+//
+// hci_transport_zephyr.c
+//
 
 /* HCI command buffers */
 #define CMD_BUF_SIZE (CONFIG_BLUETOOTH_HCI_SEND_RESERVE + \
@@ -61,51 +102,8 @@ static struct nano_fifo avail_acl_tx;
 static NET_BUF_POOL(acl_tx_pool, CONFIG_BLUETOOTH_CONTROLLER_TX_BUFFERS,
 		    BT_BUF_ACL_SIZE, &avail_acl_tx, NULL, BT_BUF_USER_DATA_MIN);
 
+static struct nano_fifo rx_queue;
 static struct nano_fifo tx_queue;
-
-// hal_cpu.h
-// TODO: implement
-#include "hal_cpu.h"
-void hal_cpu_disable_irqs(void){}
-void hal_cpu_enable_irqs(void){}
-void hal_cpu_enable_irqs_and_sleep(void){}
-
-// hal_time_ms.h
-#include <sys_clock.h>
-static int sys_clock_ms_per_tick = 1000 / sys_clock_ticks_per_sec;
-uint32_t hal_time_ms(void){
-	return sys_tick_get_32() * sys_clock_ms_per_tick;
-}
-
-static void deliver_controller_packet(void){
-	struct net_buf *buf;
-	buf = net_buf_get_timeout(&rx_queue, 0, TICKS_NONE); // TICKS_NONE vs TICKS_UNLIMITED
-	if (buf){
-		uint16_t    size = buf->len;
-		uint8_t * packet = buf->data;
-		switch (bt_buf_get_type(buf)) {
-			case BT_BUF_ACL_IN:
-				transport_packet_handler(HCI_ACL_DATA_PACKET, packet, size);
-				break;
-			case BT_BUF_EVT:
-				transport_packet_handler(HCI_EVENT_PACKET, packet, size);
-				break;
-			default:
-				printf("Unknown type %u\n", bt_buf_get_type(buf));
-				net_buf_unref(buf);
-				break;
-		}
-		net_buf_unref(buf);
-	}
-}
-
-// hci_transport_zephyr.c
-
-static btstack_data_source_t hci_transport_data_source;
-
-static void transport_run(btstack_data_source_t *ds, btstack_data_source_callback_type_t callback_type){
-	deliver_controller_packet();
-}
 
 /**
  * init transport
@@ -132,9 +130,6 @@ static void transport_init(const void *transport_config){
  * open transport connection
  */
 static int transport_open(void){
-    btstack_run_loop_set_data_source_handler(&hci_transport_data_source, &transport_run);
-    btstack_run_loop_enable_data_source_callbacks(&hci_transport_data_source, DATA_SOURCE_CALLBACK_POLL);
-    btstack_run_loop_add_data_source(&hci_transport_data_source);
     return 0;
 }
 
@@ -142,7 +137,6 @@ static int transport_open(void){
  * close transport connection
  */
 static int transport_close(void){
-    btstack_run_loop_remove_data_source(&hci_transport_data_source);
     return 0;
 }
 
@@ -170,7 +164,7 @@ static int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size)
 				memcpy(net_buf_add(buf, size), packet, size);
 				bt_send(buf);
 			} else {
-				printf("No available command buffers!\n");
+				log_error("No available command buffers!\n");
 			}
             break;
         case HCI_ACL_DATA_PACKET:
@@ -180,7 +174,7 @@ static int transport_send_packet(uint8_t packet_type, uint8_t *packet, int size)
 				memcpy(net_buf_add(buf, size), packet, size);
 				bt_send(buf);
 			} else {
-				printf("No available ACL buffers!\n");
+				log_error("No available ACL buffers!\n");
 			}
             break;
         default:
@@ -207,8 +201,136 @@ static const hci_transport_t * transport_get_instance(void){
 	return &transport;
 }
 
-// hal_time_ms.c
+static void transport_deliver_controller_packet(struct net_buf * buf){
+		uint16_t    size = buf->len;
+		uint8_t * packet = buf->data;
+		switch (bt_buf_get_type(buf)) {
+			case BT_BUF_ACL_IN:
+				transport_packet_handler(HCI_ACL_DATA_PACKET, packet, size);
+				break;
+			case BT_BUF_EVT:
+				transport_packet_handler(HCI_EVENT_PACKET, packet, size);
+				break;
+			default:
+				log_error("Unknown type %u\n", bt_buf_get_type(buf));
+				net_buf_unref(buf);
+				break;
+		}
+		net_buf_unref(buf);
+}
 
+// btstack_run_loop_zephry.c
+
+// the run loop
+static btstack_linked_list_t timers;
+
+static int sys_clock_ms_per_tick;	// set in btstack_run_loop_zephyr_init()
+
+static uint32_t btstack_run_loop_zephyr_get_time_ms(void){
+	return sys_tick_get_32() * sys_clock_ms_per_tick;
+}
+
+static uint32_t btstack_run_loop_zephyr_ticks_for_ms(uint32_t time_in_ms){
+    return time_in_ms / sys_clock_ms_per_tick;
+}
+
+static void btstack_run_loop_zephyr_set_timer(btstack_timer_source_t *ts, uint32_t timeout_in_ms){
+    uint32_t ticks = btstack_run_loop_zephyr_ticks_for_ms(timeout_in_ms);
+    if (ticks == 0) ticks++;
+    // time until next tick is < hal_tick_get_tick_period_in_ms() and we don't know, so we add one
+    ts->timeout = sys_tick_get_32() + 1 + ticks; 
+}
+
+/**
+ * Add timer to run_loop (keep list sorted)
+ */
+static void btstack_run_loop_zephyr_add_timer(btstack_timer_source_t *ts){
+    btstack_linked_item_t *it;
+    for (it = (btstack_linked_item_t *) &timers; it->next ; it = it->next){
+        // don't add timer that's already in there
+        if ((btstack_timer_source_t *) it->next == ts){
+            log_error( "btstack_run_loop_timer_add error: timer to add already in list!");
+            return;
+        }
+        if (ts->timeout < ((btstack_timer_source_t *) it->next)->timeout) {
+            break;
+        }
+    }
+    ts->item.next = it->next;
+    it->next = (btstack_linked_item_t *) ts;
+}
+
+/**
+ * Remove timer from run loop
+ */
+static int btstack_run_loop_zephyr_remove_timer(btstack_timer_source_t *ts){
+    return btstack_linked_list_remove(&timers, (btstack_linked_item_t *) ts);
+}
+
+static void btstack_run_loop_zephyr_dump_timer(void){
+#ifdef ENABLE_LOG_INFO 
+    btstack_linked_item_t *it;
+    int i = 0;
+    for (it = (btstack_linked_item_t *) timers; it ; it = it->next){
+        btstack_timer_source_t *ts = (btstack_timer_source_t*) it;
+        log_info("timer %u, timeout %u\n", i, (unsigned int) ts->timeout);
+    }
+#endif
+}
+
+/**
+ * Execute run_loop
+ */
+static void btstack_run_loop_zephyr_execute(void) {
+    while (1) {
+        // get next timeout
+        int32_t timeout_ticks = TICKS_UNLIMITED;
+        if (timers) {
+            btstack_timer_source_t * ts = (btstack_timer_source_t *) timers;
+            uint32_t now = sys_tick_get_32();
+            if (ts->timeout < now){
+                // remove timer before processing it to allow handler to re-register with run loop
+                btstack_run_loop_remove_timer(ts);
+                // printf("RL: timer %p\n", ts->process);
+                ts->process(ts);
+                continue;
+            }
+            timeout_ticks = ts->timeout - now;
+        }
+                
+ 	   	// process RX fifo only
+    	struct net_buf *buf = net_buf_get_timeout(&rx_queue, 0, timeout_ticks);
+		if (buf){
+			transport_deliver_controller_packet(buf);
+		}
+	}
+}
+
+static void btstack_run_loop_zephyr_btstack_run_loop_init(void){
+    timers = NULL;
+    sys_clock_ms_per_tick  = sys_clock_us_per_tick / 1000;
+    log_info("btstack_run_loop_init: ms_per_tick %u", sys_clock_ms_per_tick);
+}
+
+static const btstack_run_loop_t btstack_run_loop_wiced = {
+    &btstack_run_loop_zephyr_btstack_run_loop_init,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &btstack_run_loop_zephyr_set_timer,
+    &btstack_run_loop_zephyr_add_timer,
+    &btstack_run_loop_zephyr_remove_timer,
+    &btstack_run_loop_zephyr_execute,
+    &btstack_run_loop_zephyr_dump_timer,
+    &btstack_run_loop_zephyr_get_time_ms,
+};
+/**
+ * @brief Provide btstack_run_loop_posix instance for use with btstack_run_loop_init
+ */
+const btstack_run_loop_t * btstack_run_loop_zephyr_get_instance(void){
+    return &btstack_run_loop_wiced;
+}
 
 // main.c
 
@@ -227,7 +349,7 @@ void main(void)
 
 	// start with BTstack init - especially configure HCI Transport
     btstack_memory_init();
-    btstack_run_loop_init(btstack_run_loop_embedded_get_instance());
+    btstack_run_loop_init(btstack_run_loop_zephyr_get_instance());
 
     // enable full log output while porting
     hci_dump_open(NULL, HCI_DUMP_STDOUT);
