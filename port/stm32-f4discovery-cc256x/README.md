@@ -69,3 +69,32 @@ This uses local Eclipse project generated manually from STM32 template provided 
 ### Update eclipse-template from local Eclipse project
 
 	./update_from_eclipse.sh
+
+
+
+## Adding A2DP Audio Sink
+Cirrus Logic CS43L22. 
+Various STM examples using older STD driver or newer HAL driver, but not easy to integrate with STM32CubeMX
+Tutorial with STD Driver: http://www.mind-dump.net/configuring-the-stm32f4-discovery-for-audio 
+Got schematics
+We need I2C and I2S port
+### Information Gathering
+I2S3
+I2C1
+
+#define I2S3_WS_PIN 	GPIO_Pin_4   //port A
+#define I2S3_MCLK_PIN 	GPIO_Pin_7   //port C
+#define I2S3_SCLK_PIN 	GPIO_Pin_10  //port C
+#define I2S3_SD_PIN 	GPIO_Pin_12  //port C
+#define CODEC_RESET_PIN GPIO_Pin_4  //port D
+#define I2C_SCL_PIN		GPIO_Pin_6  //port B
+#define I2C_SDA_PIN		GPIO_Pin_9  //port B
+
+Cubemx:
+- Enable I2S3 as Full-Duplex Master, enable Master Clock Output
+- Enable I2C1 as I2C
+- Verify pins - everything already enabled
+- Generate code
+- patch files -> fails???
+
+
