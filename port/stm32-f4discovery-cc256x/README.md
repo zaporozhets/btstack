@@ -78,6 +78,7 @@ Various STM examples using older STD driver or newer HAL driver, but not easy to
 Tutorial with STD Driver: http://www.mind-dump.net/configuring-the-stm32f4-discovery-for-audio 
 Got schematics
 We need I2C and I2S port
+
 ### Information Gathering
 I2S3
 I2C1
@@ -90,11 +91,14 @@ I2C1
 #define I2C_SCL_PIN		GPIO_Pin_6  //port B
 #define I2C_SDA_PIN		GPIO_Pin_9  //port B
 
-Cubemx:
-- Enable I2S3 as Full-Duplex Master, enable Master Clock Output
-- Enable I2C1 as I2C
-- Verify pins - everything already enabled
-- Generate code
-- patch files -> fails???
+The provided BSP fully initialized the audio codec. Trying to use STM32CubeMX just breaks functionality. We ingore the audio codec in STM32CubeMX, resp. we keep its project file as it is.
+
+Necessary patches:
+- #define HAL_SPI_MODULE_ENABLED
+- #define HAL_I2C_MODULE_ENABLED
+- #define HAL_I2S_MODULE_ENABLED
+- add i2c + i2s c+h files
+- add DMA1_Stream7_IRQHandler to audio.c
+
 
 
