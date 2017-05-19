@@ -59,7 +59,22 @@ This paragraph is mainly for the maintainers. It describes the steps to make cha
 - open ST32CubeMX
 - load project file *cubemx-f4discovery-cc256x/cubemx-f4discovery-cc256x.ioc*
 - generate code and documentation
+
+### Apply patches
 - patch generated sources: ./patch-cubemx-project.sh
+
+### Recreate patches
+
+If patches don't apply:
+- manually patch cubemx-f4discovery-cc256x
+- rename the folde to cubemx-f4discovery-cc256x-patched
+- regenerate code once more. 
+- create patch
+
+	diff -ur cubemx-f4discovery-cc256x cubemx-f4discovery-cc256x-patched/ > cubemx-f4discovery-cc256x.patch
+
+- don't modify patch file - line endings skrew stuff up
+- apply patch again
 
 ### Update local Eclipse project from cubemx-f4discovery-cc256x
 This uses local Eclipse project generated manually from STM32 template provided by GNU ARM Eclipse using the [CubeMX Importer](https://github.com/cnoviello/CubeMXImporter)

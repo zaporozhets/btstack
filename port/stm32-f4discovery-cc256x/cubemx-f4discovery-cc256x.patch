@@ -1,0 +1,301 @@
+Only in cubemx-f4discovery-cc256x-patched: .DS_Store
+diff -ur cubemx-f4discovery-cc256x/.cproject cubemx-f4discovery-cc256x-patched/.cproject
+--- cubemx-f4discovery-cc256x/.cproject	2017-05-19 10:03:49.000000000 +0200
++++ cubemx-f4discovery-cc256x-patched/.cproject	2017-05-19 09:34:04.000000000 +0200
+@@ -1,8 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+ 	<storageModule moduleId="org.eclipse.cdt.core.settings">
+-		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828">
+-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828" moduleId="org.eclipse.cdt.core.settings" name="Debug">
++		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040">
++			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+ 				<externalSettings />
+ 				<extensions>
+ 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser" />
+@@ -14,53 +14,53 @@
+ 				</extensions>
+ 			</storageModule>
+ 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828" name="Debug" parent="fr.ac6.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="Generating binary and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O binary &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
+-					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828." name="/" resourcePath="">
+-						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.1533060757" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1320850207" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.1482909250" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F407VGTx" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.685649929" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F4DISCOVERY" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.1406408837" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1248692775" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1658824313" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated" />
+-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.421872454" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross" />
+-							<builder buildPath="${workspace_loc:/cubemx-f4discovery-cc256x}/Debug" id="fr.ac6.managedbuild.builder.gnu.cross.562702325" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
++				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040" name="Debug" parent="fr.ac6.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="Generating binary and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O binary &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
++					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040." name="/" resourcePath="">
++						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.340535900" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
++							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1196585310" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.230587047" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F407VGTx" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.board.815931439" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F4DISCOVERY" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.667144078" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.922006150" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.650083668" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated" />
++							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1102783243" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross" />
++							<builder buildPath="${workspace_loc:/cubemx-f4discovery-cc256x}/Debug" id="fr.ac6.managedbuild.builder.gnu.cross.1280981262" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
+ 								<outputEntries>
+ 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug" />
+ 								</outputEntries>
+ 							</builder>
+ 
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1451892148" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
+-								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.712066269" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
+-								<option id="gnu.c.compiler.option.debugging.level.1323524179" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
+-								<option id="gnu.c.compiler.option.include.paths.1605202694" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"><listOptionValue builtIn="false" value="../Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /></option>
+-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1907269986" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"><listOptionValue builtIn="false" value="__weak=&quot;__attribute__((weak))&quot;" /><listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" /><listOptionValue builtIn="false" value="USE_HAL_DRIVER" /><listOptionValue builtIn="false" value="STM32F407xx" /></option>
+-								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1023160187" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1284260685" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.261890430" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
+-							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.267479484" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
+-								<option id="gnu.cpp.compiler.option.optimization.level.828439881" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated" />
+-								<option id="gnu.cpp.compiler.option.debugging.level.525977341" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated" />
+-							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.1262539197" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+-								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1425005963" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32F407VGTx_FLASH.ld" valueType="string" />
+-								<option id="gnu.c.link.option.libs.2138933601" name="Libraries (-l)" superClass="gnu.c.link.option.libs" />
+-								<option id="gnu.c.link.option.paths.899846095" name="Library search path (-L)" superClass="gnu.c.link.option.paths" />
+-								<option id="gnu.c.link.option.ldflags.1183563819" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
+-								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.793869673" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.992730768" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
++								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.810823039" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
++								<option id="gnu.c.compiler.option.debugging.level.674794525" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
++								<option id="gnu.c.compiler.option.include.paths.180086060" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"><listOptionValue builtIn="false" value="../Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /><listOptionValue builtIn="false" value="../Inc" /></option>
++								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1293032252" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"><listOptionValue builtIn="false" value="__weak=&quot;__attribute__((weak))&quot;" /><listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" /><listOptionValue builtIn="false" value="USE_HAL_DRIVER" /><listOptionValue builtIn="false" value="STM32F407xx" /></option>
++								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1402773972" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.10105003" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1036781793" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
++							</tool>
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.1034006552" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
++								<option id="gnu.cpp.compiler.option.optimization.level.1835397922" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated" />
++								<option id="gnu.cpp.compiler.option.debugging.level.2102735117" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated" />
++							</tool>
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.166749737" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
++								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1524520859" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32F407VGTx_FLASH.ld" valueType="string" />
++								<option id="gnu.c.link.option.libs.261883645" name="Libraries (-l)" superClass="gnu.c.link.option.libs" />
++								<option id="gnu.c.link.option.paths.1025827060" name="Library search path (-L)" superClass="gnu.c.link.option.paths" />
++								<option id="gnu.c.link.option.ldflags.574003029" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
++								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1244963628" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+ 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
+ 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
+ 								</inputType>
+ 							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.887385644" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker" />
+-							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.1957294989" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.2113456986" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
+-								<option id="gnu.both.asm.option.include.paths.542151527" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.893844519" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker" />
++							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.844208003" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.69249004" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
++								<option id="gnu.both.asm.option.include.paths.65164185" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+ 									
+ 								</option>
+-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1878639428" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.162510993" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
++								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.34224478" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.751703559" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
+ 							</tool>
+ 						</toolChain>
+ 					</folderInfo>
+@@ -71,8 +71,8 @@
+ 			</storageModule>
+ 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
+ 		</cconfiguration>
+-		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.release.616444242">
+-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.616444242" moduleId="org.eclipse.cdt.core.settings" name="Release">
++		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1064230974">
++			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1064230974" moduleId="org.eclipse.cdt.core.settings" name="Release">
+ 				<externalSettings />
+ 				<extensions>
+ 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser" />
+@@ -84,53 +84,53 @@
+ 				</extensions>
+ 			</storageModule>
+ 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.616444242" name="Release" parent="fr.ac6.managedbuild.config.gnu.cross.exe.release" postannouncebuildStep="Generating binary and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O binary &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
+-					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.release.616444242." name="/" resourcePath="">
+-						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release.1199348744" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release">
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1320850207" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.1482909250" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F407VGTx" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.685649929" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F4DISCOVERY" valueType="string" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.1406408837" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1248692775" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated" />
+-							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1658824313" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated" />
+-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.421872454" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross" />
+-							<builder buildPath="${workspace_loc:/cubemx-f4discovery-cc256x}/Release" id="fr.ac6.managedbuild.builder.gnu.cross.562702325" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
++				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1064230974" name="Release" parent="fr.ac6.managedbuild.config.gnu.cross.exe.release" postannouncebuildStep="Generating binary and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O binary &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
++					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1064230974." name="/" resourcePath="">
++						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release.935428302" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release">
++							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1196585310" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.230587047" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F407VGTx" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.board.815931439" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F4DISCOVERY" valueType="string" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.667144078" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.922006150" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated" />
++							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.650083668" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated" />
++							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1102783243" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross" />
++							<builder buildPath="${workspace_loc:/cubemx-f4discovery-cc256x}/Release" id="fr.ac6.managedbuild.builder.gnu.cross.1280981262" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
+ 								<outputEntries>
+ 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release" />
+ 								</outputEntries>
+ 							</builder>
+ 
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1451892148" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
+-								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.712066269" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
+-								<option id="gnu.c.compiler.option.debugging.level.1323524179" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
+-								<option id="gnu.c.compiler.option.include.paths.1605202694" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"><listOptionValue builtIn="false" value="../Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /></option>
+-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1907269986" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"><listOptionValue builtIn="false" value="__weak=&quot;__attribute__((weak))&quot;" /><listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" /><listOptionValue builtIn="false" value="USE_HAL_DRIVER" /><listOptionValue builtIn="false" value="STM32F407xx" /></option>
+-								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1023160187" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1284260685" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.261890430" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
+-							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.267479484" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
+-								<option id="gnu.cpp.compiler.option.optimization.level.828439881" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated" />
+-								<option id="gnu.cpp.compiler.option.debugging.level.525977341" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated" />
+-							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.1262539197" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+-								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1425005963" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32F407VGTx_FLASH.ld" valueType="string" />
+-								<option id="gnu.c.link.option.libs.2138933601" name="Libraries (-l)" superClass="gnu.c.link.option.libs" />
+-								<option id="gnu.c.link.option.paths.899846095" name="Library search path (-L)" superClass="gnu.c.link.option.paths" />
+-								<option id="gnu.c.link.option.ldflags.1183563819" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
+-								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.793869673" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.992730768" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
++								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.810823039" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
++								<option id="gnu.c.compiler.option.debugging.level.674794525" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
++								<option id="gnu.c.compiler.option.include.paths.180086060" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"><listOptionValue builtIn="false" value="../Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /><listOptionValue builtIn="false" value="../Inc" /></option>
++								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1293032252" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"><listOptionValue builtIn="false" value="__weak=&quot;__attribute__((weak))&quot;" /><listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" /><listOptionValue builtIn="false" value="USE_HAL_DRIVER" /><listOptionValue builtIn="false" value="STM32F407xx" /></option>
++								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1402773972" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.10105003" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1036781793" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
++							</tool>
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.1034006552" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
++								<option id="gnu.cpp.compiler.option.optimization.level.1835397922" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated" />
++								<option id="gnu.cpp.compiler.option.debugging.level.2102735117" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated" />
++							</tool>
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.166749737" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
++								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1524520859" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32F407VGTx_FLASH.ld" valueType="string" />
++								<option id="gnu.c.link.option.libs.261883645" name="Libraries (-l)" superClass="gnu.c.link.option.libs" />
++								<option id="gnu.c.link.option.paths.1025827060" name="Library search path (-L)" superClass="gnu.c.link.option.paths" />
++								<option id="gnu.c.link.option.ldflags.574003029" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
++								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1244963628" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+ 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
+ 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
+ 								</inputType>
+ 							</tool>
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.887385644" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker" />
+-							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.1957294989" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
+-							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.2113456986" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
+-								<option id="gnu.both.asm.option.include.paths.542151527" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.893844519" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker" />
++							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.844208003" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
++							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.69249004" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
++								<option id="gnu.both.asm.option.include.paths.65164185" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+ 									
+ 								</option>
+-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1878639428" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
+-								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.162510993" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
++								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.34224478" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
++								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.751703559" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
+ 							</tool>
+ 						</toolChain>
+ 					</folderInfo>
+@@ -143,11 +143,11 @@
+ 		</cconfiguration>
+ 	</storageModule>
+ 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+-		<project id="cubemx-f4discovery-cc256x.fr.ac6.managedbuild.target.gnu.cross.exe.1674831099" name="Executable" projectType="fr.ac6.managedbuild.target.gnu.cross.exe" />
++		<project id="cubemx-f4discovery-cc256x.fr.ac6.managedbuild.target.gnu.cross.exe.817375755" name="Executable" projectType="fr.ac6.managedbuild.target.gnu.cross.exe" />
+ 	</storageModule>
+ 	<storageModule moduleId="scannerConfiguration">
+ 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="" />
+-		<scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828;fr.ac6.managedbuild.config.gnu.cross.exe.debug.2139530828.;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1451892148;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1284260685">
++		<scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040;fr.ac6.managedbuild.config.gnu.cross.exe.debug.2021572040.;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.992730768;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.10105003">
+ 			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId="" />
+ 		</scannerConfigBuildInfo>
+ 		<!--scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.release.$(RELEASE_CONFIG_UID);fr.ac6.managedbuild.config.gnu.cross.exe.release.$(RELEASE_CONFIG_UID).;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.$(RELEASE_TOOL_COMPILER_UID);cdt.managedbuild.tool.gnu.c.compiler.input.$(RELEASE_TOOL_COMPILER_INPUT_UID)">
+Only in cubemx-f4discovery-cc256x-patched: .gitignore
+diff -ur cubemx-f4discovery-cc256x/.mxproject cubemx-f4discovery-cc256x-patched/.mxproject
+--- cubemx-f4discovery-cc256x/.mxproject	2017-05-19 10:03:49.000000000 +0200
++++ cubemx-f4discovery-cc256x-patched/.mxproject	2017-05-19 09:34:05.000000000 +0200
+@@ -1,8 +1,8 @@
+ [PreviousGenFiles]
+ HeaderPath=/Projects/eclipse-neon-cdt/stm32f4discovery-template/btstack/port/stm32-f4discovery-cc256x/cubemx-f4discovery-cc256x/Inc
+-HeaderFiles=gpio.h;dma.h;usart.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;
++HeaderFiles=gpio.h;dma.h;usart.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;i2c.h;i2s.h;
+ SourcePath=/Projects/eclipse-neon-cdt/stm32f4discovery-template/btstack/port/stm32-f4discovery-cc256x/cubemx-f4discovery-cc256x/Src
+-SourceFiles=gpio.h;dma.h;usart.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;gpio.c;dma.c;usart.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;
++SourceFiles=gpio.h;dma.h;usart.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;gpio.c;dma.c;usart.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;i2c.h;i2s.h;i2c.c;i2s.c;
+ 
+ [PreviousLibFiles]
+ LibFiles=Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h;Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h;Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c;Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c;Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h;Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h;Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h;Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c;Drivers/CMSIS/Include/arm_common_tables.h;Drivers/CMSIS/Include/arm_const_structs.h;Drivers/CMSIS/Include/arm_math.h;Drivers/CMSIS/Include/cmsis_armcc.h;Drivers/CMSIS/Include/cmsis_armcc_V6.h;Drivers/CMSIS/Include/cmsis_gcc.h;Drivers/CMSIS/Include/core_cm0.h;Drivers/CMSIS/Include/core_cm0plus.h;Drivers/CMSIS/Include/core_cm3.h;Drivers/CMSIS/Include/core_cm4.h;Drivers/CMSIS/Include/core_cm7.h;Drivers/CMSIS/Include/core_cmFunc.h;Drivers/CMSIS/Include/core_cmInstr.h;Drivers/CMSIS/Include/core_cmSimd.h;Drivers/CMSIS/Include/core_sc000.h;Drivers/CMSIS/Include/core_sc300.h;
+diff -ur cubemx-f4discovery-cc256x/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c cubemx-f4discovery-cc256x-patched/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c
+--- cubemx-f4discovery-cc256x/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c	2017-05-19 10:15:44.000000000 +0200
++++ cubemx-f4discovery-cc256x-patched/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c	2017-05-19 09:50:51.000000000 +0200
+@@ -974,8 +974,12 @@
+     tmp = (uint32_t*)&pData;
+     HAL_DMA_Start_IT(huart->hdmarx, (uint32_t)&huart->Instance->DR, *(uint32_t*)tmp, Size);
+ 
+-    /* Clear the Overrun flag just before enabling the DMA Rx request: can be mandatory for the second transfer */
+-    __HAL_UART_CLEAR_OREFLAG(huart);
++    //
++    //  BK: __HAL_UART_CLEAR_OREFLAG (also) reads Data Register -> loosing an already received byte
++    //
++    //  /* Clear the Overrun flag just before enabling the DMA Rx request: can be mandatory for the second transfer */
++    //  __HAL_UART_CLEAR_OREFLAG(huart);
++    //
+ 
+     /* Process Unlocked */
+     __HAL_UNLOCK(huart);
+diff -ur cubemx-f4discovery-cc256x/Inc/stm32f4xx_hal_conf.h cubemx-f4discovery-cc256x-patched/Inc/stm32f4xx_hal_conf.h
+--- cubemx-f4discovery-cc256x/Inc/stm32f4xx_hal_conf.h	2017-05-19 10:15:44.000000000 +0200
++++ cubemx-f4discovery-cc256x-patched/Inc/stm32f4xx_hal_conf.h	2017-05-19 10:00:13.000000000 +0200
+@@ -65,8 +65,8 @@
+ /* #define HAL_SRAM_MODULE_ENABLED   */
+ /* #define HAL_SDRAM_MODULE_ENABLED   */
+ /* #define HAL_HASH_MODULE_ENABLED   */
+-/* #define HAL_I2C_MODULE_ENABLED   */
+-/* #define HAL_I2S_MODULE_ENABLED   */
++#define HAL_I2C_MODULE_ENABLED   
++#define HAL_I2S_MODULE_ENABLED   
+ /* #define HAL_IWDG_MODULE_ENABLED   */
+ /* #define HAL_LTDC_MODULE_ENABLED   */
+ /* #define HAL_RNG_MODULE_ENABLED   */
+@@ -74,7 +74,7 @@
+ /* #define HAL_SAI_MODULE_ENABLED   */
+ /* #define HAL_SD_MODULE_ENABLED   */
+ /* #define HAL_MMC_MODULE_ENABLED   */
+-/* #define HAL_SPI_MODULE_ENABLED   */
++#define HAL_SPI_MODULE_ENABLED
+ /* #define HAL_TIM_MODULE_ENABLED   */
+ #define HAL_UART_MODULE_ENABLED
+ /* #define HAL_USART_MODULE_ENABLED   */
+diff -ur cubemx-f4discovery-cc256x/Src/main.c cubemx-f4discovery-cc256x-patched/Src/main.c
+--- cubemx-f4discovery-cc256x/Src/main.c	2017-05-19 10:15:44.000000000 +0200
++++ cubemx-f4discovery-cc256x-patched/Src/main.c	2017-05-19 10:21:39.000000000 +0200
+@@ -41,6 +41,7 @@
+ #include "dma.h"
+ #include "usart.h"
+ #include "gpio.h"
++#include "port.h"
+ 
+ /* USER CODE BEGIN Includes */
+ 
+@@ -95,9 +96,12 @@
+   MX_USART3_UART_Init();
+ 
+   /* USER CODE BEGIN 2 */
+-
++ 
+   /* USER CODE END 2 */
+ 
++  // jump to BTstack port
++  port_main();
++
+   /* Infinite loop */
+   /* USER CODE BEGIN WHILE */
+   while (1)
