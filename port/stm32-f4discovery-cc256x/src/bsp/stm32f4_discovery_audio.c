@@ -498,7 +498,9 @@ __weak void BSP_AUDIO_OUT_ClockConfig(I2S_HandleTypeDef *hi2s, uint32_t AudioFre
   /* Enable PLLI2S clock */
   HAL_RCCEx_GetPeriphCLKConfig(&rccclkinit);
   /* PLLI2S_VCO Input = HSE_VALUE/PLL_M = 1 Mhz */
-  if ((freqindex & 0x7) == 0)
+
+  // BK use table if frequency found in table, otherwise use same settings as for 48 kHz
+  if (freqindex != 0xFF)
   {
     /* I2S clock config 
     PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) � (PLLI2SN/PLLM)
