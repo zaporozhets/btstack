@@ -81,6 +81,7 @@
 
 #define NUM_CHANNELS 2
 #define BYTES_PER_FRAME     (2*NUM_CHANNELS)
+#define MAX_SBC_FRAME_SIZE 120
 
 // SBC Decoder for WAV file or PortAudio
 #ifdef DECODE_SBC
@@ -97,16 +98,21 @@ static btstack_ring_buffer_t ring_buffer;
 #endif
 
 #ifdef HAVE_AUDIO_DMA
-#define MAX_SBC_FRAME_SIZE 200
-#define PREBUFFER_FRAMES 30
-#define MAX_EARLY_FRAMES 10
+// below 30: add samples, 30-40: fine, above 40: drop samples
+#define OPTIMAL_FRAMES_MIN 30
+#define OPTIMAL_FRAMES_MAX 40
+#define ADDITIONAL_FRAMES  10
 #define DMA_AUDIO_FRAMES 128
+#define DMA_MAX_FILL_FRAMES 1
 #define NUM_AUDIO_BUFFERS 4
-static uint16_t audio_samples[DMA_AUDIO_FRAMES*2*NUM_AUDIO_BUFFERS];
-static uint8_t ring_buffer_storage[(PREBUFFER_FRAMES + MAX_EARLY_FRAMES) * MAX_SBC_FRAME_SIZE];
+
+static uint16_t audio_samples[(DMA_AUDIO_FRAMES + DMA_MAX_FILL_FRAMES)*2*NUM_AUDIO_BUFFERS];
+static uint16_t audio_samples_len[NUM_AUDIO_BUFFERS];
+static uint8_t ring_buffer_storage[(OPTIMAL_FRAMES_MAX + ADDITIONAL_FRAMES) * MAX_SBC_FRAME_SIZE];
 static volatile int playback_buffer;
 static int write_buffer;
-static uint8_t sbc_frame_size = 114; // todo: get size from sbc decoder after decoding first frame?
+static uint8_t sbc_frame_size;
+static int sbc_samples_fix;
 #endif
 
 // PortAdudio - live playback
@@ -250,12 +256,12 @@ void hal_audio_dma_done(void){
 	// switch buffer
 	playback_buffer = next_buffer(playback_buffer);
 	if (playback_buffer == write_buffer){
-		printf("paused\n");
+		printf("%6u - paused\n", btstack_run_loop_get_time_ms());
 		audio_stream_paused = 1;
 		return;
 	}
 	uint8_t * playback_data = start_of_buffer(playback_buffer);
-	hal_audio_dma_play(playback_data, DMA_AUDIO_FRAMES * BYTES_PER_FRAME);
+	hal_audio_dma_play(playback_data, audio_samples_len[playback_buffer]);
 	btstack_run_loop_embedded_trigger();
 }
 #endif
@@ -293,11 +299,23 @@ static void handle_pcm_data(int16_t * data, int num_samples, int num_channels, i
 static void handle_pcm_data(int16_t * data, int num_samples, int num_channels, int sample_rate, void * context){
     UNUSED(sample_rate);
     UNUSED(context);
-//    printf("%c", 'a' + write_buffer);
     total_num_samples+=num_samples*num_channels;
+
     // store in ring buffer
     uint8_t * write_data = start_of_buffer(write_buffer);
-    memcpy(write_data, data, num_samples*num_channels*2);
+    uint16_t len = num_samples*num_channels*2;
+    memcpy(write_data, data, len);
+    audio_samples_len[write_buffer] = len;
+
+    // add/drop audio frame to fix drift
+    if (sbc_samples_fix > 0){
+        memcpy(write_data + len, write_data + len - 4, 4);
+        audio_samples_len[write_buffer] += 4;
+    }
+    if (sbc_samples_fix < 0){
+        audio_samples_len[write_buffer] -= 4;
+    }
+
     write_buffer = next_buffer(write_buffer);
 }
 
@@ -308,30 +326,22 @@ static void hal_audio_dma_process(btstack_data_source_t * ds){
 
 	int trigger_dma = 0;
 	if (audio_stream_paused) {
-		if (btstack_ring_buffer_bytes_available(&ring_buffer) >= PREBUFFER_FRAMES * sbc_frame_size){
+		if (sbc_frame_size && btstack_ring_buffer_bytes_available(&ring_buffer) >= OPTIMAL_FRAMES_MIN * sbc_frame_size){
 			trigger_dma = 1;
 			audio_stream_paused = 0;
 			playback_buffer = NUM_AUDIO_BUFFERS - 1;
 			write_buffer = 0;
-			printf("resume\n");
+			printf("%6u - resume\n", btstack_run_loop_get_time_ms());
 		} else {
 			return;
 		}
 	}
 
-	int print_fill = 1;
 	while (playback_buffer != write_buffer && btstack_ring_buffer_bytes_available(&ring_buffer) >= sbc_frame_size ){
-		if (print_fill){
-			print_fill = 0;
-//			printf("fill: ");
-		}
 		uint8_t frame[MAX_SBC_FRAME_SIZE];
 	    uint32_t bytes_read = 0;
 	    btstack_ring_buffer_read(&ring_buffer, frame, sbc_frame_size, &bytes_read);
 	    btstack_sbc_decoder_process_data(&state, 0, frame, sbc_frame_size);
-	}
-	if (print_fill == 0){
-//		printf("\n");
 	}
 
 	if (trigger_dma){
@@ -487,6 +497,9 @@ static void handle_l2cap_media_data_packet(avdtp_stream_endpoint_t * stream_endp
     sbc_header.num_frames = packet[pos] & 0x0f;
     pos++;
 
+    // store sbc frame size for buffer management
+    sbc_frame_size = (size-pos)/ sbc_header.num_frames;
+
     UNUSED(sbc_header);
     // printf("SBC HEADER: num_frames %u, fragmented %u, start %u, stop %u\n", sbc_header.num_frames, sbc_header.fragmentation, sbc_header.starting_packet, sbc_header.last_packet);
     // printf_hexdump( packet+pos, size-pos );
@@ -496,8 +509,21 @@ static void handle_l2cap_media_data_packet(avdtp_stream_endpoint_t * stream_endp
     log_info("PA: bytes avail after recv: %d", btstack_ring_buffer_bytes_available(&ring_buffer));
 #endif
 #ifdef HAVE_AUDIO_DMA
-    // printf("data %u\n", btstack_run_loop_get_time_ms());
     btstack_ring_buffer_write(&ring_buffer,  packet+pos, size-pos);
+
+    // decide on audio sync drift based on number of sbc frames in queue
+    int sbc_frames_in_buffer = btstack_ring_buffer_bytes_available(&ring_buffer) / sbc_frame_size;
+    if (sbc_frames_in_buffer < OPTIMAL_FRAMES_MIN){
+    	sbc_samples_fix = 1;	// duplicate last sample
+    } else if (sbc_frames_in_buffer <= OPTIMAL_FRAMES_MAX){
+    	sbc_samples_fix = 0;
+    } else {
+    	sbc_samples_fix = -1;
+    }
+
+    // dump
+    printf("%6u %03u %d\n", btstack_run_loop_get_time_ms(), sbc_frames_in_buffer, sbc_samples_fix);
+
 #endif
 
 #ifdef STORE_SBC_TO_SBC_FILE
