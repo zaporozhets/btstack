@@ -104,7 +104,7 @@ static btstack_ring_buffer_t ring_buffer;
 #define ADDITIONAL_FRAMES  10
 #define DMA_AUDIO_FRAMES 128
 #define DMA_MAX_FILL_FRAMES 1
-#define NUM_AUDIO_BUFFERS 4
+#define NUM_AUDIO_BUFFERS 2
 
 static uint16_t audio_samples[(DMA_AUDIO_FRAMES + DMA_MAX_FILL_FRAMES)*2*NUM_AUDIO_BUFFERS];
 static uint16_t audio_samples_len[NUM_AUDIO_BUFFERS];
