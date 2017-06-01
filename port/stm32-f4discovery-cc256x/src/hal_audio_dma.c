@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 BlueKitchen GmbH
+ * Copyright (C) 2017 BlueKitchen GmbH
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -48,7 +48,7 @@ void BSP_AUDIO_OUT_TransferComplete_CallBack(void){
 }
 
 void hal_audio_dma_init(uint32_t sample_rate){
-	BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_BOTH, 70, sample_rate);
+	BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_BOTH, 100, sample_rate);
 }
 
 void hal_audio_dma_set_audio_played(void (*handler)(void)){
@@ -65,5 +65,7 @@ void hal_audio_dma_play(uint8_t * audio_data, uint16_t audio_len){
 }
 
 void hal_audio_dma_close(void){
+	started = 0;
+	BSP_AUDIO_OUT_Stop(CODEC_PDWN_HW);
 }
 

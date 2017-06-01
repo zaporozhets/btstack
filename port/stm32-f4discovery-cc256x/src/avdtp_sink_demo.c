@@ -351,9 +351,10 @@ static void hal_audio_dma_process(btstack_data_source_t * ds){
 
 #endif
 
-static int init_media_processing(avdtp_media_codec_configuration_sbc_t configuration){
+static int media_processing_init(avdtp_media_codec_configuration_sbc_t configuration){
     int num_channels = configuration.num_channels;
     int sample_rate = configuration.sampling_frequency;
+	printf("Media processing init freq %u\n", configuration.sampling_frequency);
     
 #ifdef DECODE_SBC
     btstack_sbc_decoder_init(&state, mode, handle_pcm_data, NULL);
@@ -366,8 +367,6 @@ static int init_media_processing(avdtp_media_codec_configuration_sbc_t configura
 #ifdef STORE_SBC_TO_SBC_FILE    
     sbc_file = fopen(sbc_filename, "wb"); 
 #endif
-
-#if defined(HAVE_PORTAUDIO) || defined (HAVE_AUDIO_DMA)
 
 #ifdef HAVE_PORTAUDIO
     // int frames_per_buffer = configuration.frames_per_buffer;
@@ -408,6 +407,7 @@ static int init_media_processing(avdtp_media_codec_configuration_sbc_t configura
     hal_audio_dma_set_audio_played(&hal_audio_dma_done);
 #endif
 
+ #if defined(HAVE_PORTAUDIO) || defined (HAVE_AUDIO_DMA)
     memset(ring_buffer_storage, 0, sizeof(ring_buffer_storage));
     btstack_ring_buffer_init(&ring_buffer, ring_buffer_storage, sizeof(ring_buffer_storage));
     audio_stream_started = 0;
@@ -416,7 +416,8 @@ static int init_media_processing(avdtp_media_codec_configuration_sbc_t configura
     return 0;
 }
 
-static void close_media_processing(void){
+static void media_processing_close(void){
+	printf("Media processing close\n");
     if (!media_initialized) return;
     media_initialized = 0;
 #ifdef STORE_SBC_TO_WAV_FILE 
@@ -433,6 +434,8 @@ static void close_media_processing(void){
 
 #if defined(HAVE_PORTAUDIO) || defined (HAVE_AUDIO_DMA)
     audio_stream_started = 0;
+#endif
+
 #ifdef HAVE_PORTAUDIO
     PaError err = Pa_StopStream(stream);
     if (err != paNoError){
@@ -450,6 +453,8 @@ static void close_media_processing(void){
         return;
     } 
 #endif
+#ifdef HAVE_AUDIO_DMA
+    hal_audio_dma_close();
 #endif
 }
 
@@ -572,7 +577,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
                 case HCI_EVENT_DISCONNECTION_COMPLETE:
                     // connection closed -> quit test app
                     printf("\n --- avdtp_test: HCI_EVENT_DISCONNECTION_COMPLETE ---\n");
-                    close_media_processing();
+                    media_processing_close();
                     break;
                 case HCI_EVENT_AVDTP_META:
                     switch (packet[2]){
@@ -616,10 +621,10 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
                             // btstack_sbc_encoder_init(&local_stream_endpoint->sbc_encoder_state, SBC_MODE_STANDARD, 16, 8, 2, 44100, 53);
 
                             if (sbc_configuration.reconfigure){
-                                close_media_processing();
-                                init_media_processing(sbc_configuration);
+                                media_processing_close();
+                                media_processing_init(sbc_configuration);
                             } else {
-                                init_media_processing(sbc_configuration);
+                                media_processing_init(sbc_configuration);
                             }
                             break;
                         }  
