@@ -66,7 +66,7 @@ void hal_audio_dma_set_audio_played(void (*handler)(void));
  * @param audio_len in bytes
  */
 
-void hal_audio_dma_play(uint8_t * audio_data, uint16_t audio_len);
+void hal_audio_dma_play(const uint8_t * audio_data, uint16_t audio_len);
 
 /**
  * @brief Close audio codec

@@ -55,7 +55,7 @@ void hal_audio_dma_set_audio_played(void (*handler)(void)){
 	audio_played_handler = handler;
 }
 
-void hal_audio_dma_play(uint8_t * audio_data, uint16_t audio_len){
+void hal_audio_dma_play(const uint8_t * audio_data, uint16_t audio_len){
 	if (!started){
 		started = 1;
 		BSP_AUDIO_OUT_Play(audio_data, audio_len);
