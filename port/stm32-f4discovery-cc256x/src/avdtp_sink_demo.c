@@ -519,9 +519,11 @@ static void handle_l2cap_media_data_packet(avdtp_stream_endpoint_t * stream_endp
     sbc_header.num_frames = packet[pos] & 0x0f;
     pos++;
 
+#ifdef HAVE_AUDIO_DMA
     // store sbc frame size for buffer management
     sbc_frame_size = (size-pos)/ sbc_header.num_frames;
-
+#endif
+    
     UNUSED(sbc_header);
     // printf("SBC HEADER: num_frames %u, fragmented %u, start %u, stop %u\n", sbc_header.num_frames, sbc_header.fragmentation, sbc_header.starting_packet, sbc_header.last_packet);
     // printf_hexdump( packet+pos, size-pos );
