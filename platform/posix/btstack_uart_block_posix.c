@@ -222,6 +222,8 @@ static int btstack_uart_posix_set_baudrate(uint32_t baudrate){
 #elif defined(HAVE_POSIX_B1200_MAPPED_TO_2000000)
            log_info("hci_transport_posix: using B1200 for 2 mbps");
             brate=B1200;
+#elif defined(B2000000)
+            brate=B2000000;
 #endif
             break;
         case 3000000:
@@ -231,6 +233,8 @@ static int btstack_uart_posix_set_baudrate(uint32_t baudrate){
 #elif defined(HAVE_POSIX_B2400_MAPPED_TO_3000000)
             log_info("hci_transport_posix: using B2400 for 3 mbps");
             brate=B2400;
+#elif defined(B3000000)
+            brate=B3000000;
 #endif
             break;
         default:
